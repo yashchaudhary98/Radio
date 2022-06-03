@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.radio_ksvcem">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,9 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Radio_Ksvcem"
         tools:targetApi="31">
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
         <activity
             android:name=".Splash"
             android:exported="true"
@@ -29,10 +29,12 @@
         <activity
             android:name=".support"
             android:exported="false"
-            android:noHistory="true" />
+            android:noHistory="true"
+            android:label="Contact Us" />
         <activity
             android:name=".radio"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true"/>
     </application>
 
 </manifest>
