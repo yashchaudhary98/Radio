@@ -23,7 +23,7 @@ public class radio extends AppCompatActivity {
     SeekBar seekprog;
     Handler handler = new Handler();
     LottieAnimationView animation;
-    TextView facebook, instagram, support, twitter;
+    TextView facebook, youtube, support, twitter;
     private boolean isbackPressed = false;
 
 
@@ -57,7 +57,7 @@ public class radio extends AppCompatActivity {
         seekprog = findViewById(R.id.seekbar);
         animation = findViewById(R.id.animation1_view);
         facebook = findViewById(R.id.facebook);
-        instagram = findViewById(R.id.instagram);
+        youtube = findViewById(R.id.youtube);
         twitter = findViewById(R.id.twitter);
         support = findViewById(R.id.support);
 
@@ -82,10 +82,10 @@ public class radio extends AppCompatActivity {
             }
         });
 
-        instagram.setOnClickListener(new View.OnClickListener() {
+        youtube.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = instagram.getText().toString();
+                String url = youtube.getText().toString();
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse("https://www.instagram.com/"));
                 startActivity(i);

@@ -101,6 +101,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
@@ -114,6 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="20dp"
+                    android:textSize="5sp"
                     app:drawableBottomCompat="@drawable/facebook" />
 
                 <TextView
@@ -122,21 +124,24 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="20dp"
+                    android:textSize="5sp"
                     app:drawableBottomCompat="@drawable/twitter" />
 
                 <TextView
-                    android:id="@+id/instagram"
+                    android:id="@+id/youtube"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="20dp"
-                    app:drawableBottomCompat="@drawable/instagram" />
+                    android:textSize="5sp"
+                    app:drawableBottomCompat="@drawable/youtube" />
 
                 <TextView
                     android:id="@+id/support"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:textSize="5sp"
                     app:drawableBottomCompat="@drawable/support" />
 
             </LinearLayout>
