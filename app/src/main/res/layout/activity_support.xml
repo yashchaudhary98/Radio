@@ -96,7 +96,6 @@
                         android:paddingBottom="20dp" />
 
                     <TextView
-                        android:id="@+id/Call"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -134,7 +133,6 @@
                         android:paddingBottom="20dp" />
 
                     <TextView
-                        android:id="@+id/emailus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

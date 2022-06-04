@@ -33,8 +33,7 @@
             android:label="Contact Us" />
         <activity
             android:name=".radio"
-            android:exported="false"
-            android:noHistory="true"/>
+            android:exported="false"/>
     </application>
 
 </manifest>

@@ -40,6 +40,7 @@ public class support extends AppCompatActivity {
         }
         isbackPressed = true;
         Intent intent = new Intent(support.this, radio.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 
