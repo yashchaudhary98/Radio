@@ -96,7 +96,7 @@ public class radio extends AppCompatActivity {
             public void onClick(View view) {
                 String url = youtube.getText().toString();
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://www.instagram.com/"));
+                i.setData(Uri.parse("https://www.youtube.com/"));
                 startActivity(i);
             }
         });
