@@ -16,13 +16,16 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
+        android:drawingCacheQuality="high"
         android:gravity="bottom"
         android:orientation="vertical">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <com.airbnb.lottie.LottieAnimationView
@@ -30,8 +33,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:padding="20dp"
 
 
                 app:lottie_autoPlay="false"
@@ -43,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -53,7 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/live" />
+                android:background="@drawable/live"
+                android:drawingCacheQuality="high" />
 
             <SeekBar
                 android:id="@+id/seekbar"
@@ -69,8 +71,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="70dp"
             android:gravity="center"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/play"
@@ -80,6 +81,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="5dp"
                 android:background="@drawable/play"
+                android:drawingCacheQuality="high"
                 android:onClick="music"
                 tools:ignore="SpeakableTextPresentCheck" />
 
@@ -106,35 +108,39 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="20dp"
-                    android:textSize="5sp"
-                    app:drawableBottomCompat="@drawable/facebook" />
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/facebook"
+                    android:drawingCacheQuality="high"
+                    android:textSize="5sp" />
 
                 <TextView
                     android:id="@+id/twitter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="20dp"
-                    android:textSize="5sp"
-                    app:drawableBottomCompat="@drawable/twitter" />
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/twitter"
+                    android:drawingCacheQuality="high"
+                    android:textSize="5sp" />
 
                 <TextView
                     android:id="@+id/youtube"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="20dp"
-                    android:textSize="5sp"
-                    app:drawableBottomCompat="@drawable/youtube" />
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/youtube"
+                    android:drawingCacheQuality="high"
+                    android:textSize="5sp" />
 
                 <TextView
                     android:id="@+id/support"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textSize="5sp"
-                    app:drawableBottomCompat="@drawable/support" />
+                    android:background="@drawable/support"
+                    android:drawingCacheQuality="high"
+                    android:textSize="5sp" />
 
             </LinearLayout>
 
