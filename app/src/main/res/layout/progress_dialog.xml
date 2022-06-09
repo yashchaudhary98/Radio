@@ -26,6 +26,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Loading..."
+            android:textColor="#757373"
             android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>

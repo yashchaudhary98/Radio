@@ -23,7 +23,6 @@ public class Splash extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(Splash.this, radio.class);
             startActivity(intent);
-            finish();
         },9000);
 
         Animation animation = AnimationUtils.loadAnimation(Splash.this, R.anim.animation);

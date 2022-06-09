@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,9 +24,10 @@ import com.android.volley.toolbox.Volley;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class support extends AppCompatActivity {
-
     private boolean isbackPressed = false;
     EditText name, email, msg;
     TextView sendbtn, call, email_us;
@@ -34,7 +36,7 @@ public class support extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(isbackPressed) {
+        if (isbackPressed) {
             super.onBackPressed();
             return;
         }
@@ -57,7 +59,6 @@ public class support extends AppCompatActivity {
         email_us = findViewById(R.id.mail);
 
 
-
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,41 +77,40 @@ public class support extends AppCompatActivity {
         });
 
 
-
         sendbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 progressDialog = new ProgressDialog(support.this);
 
-                if(name.length() == 0) {
-                    name.setError("Enter the Name");
-                }else if(email.length() == 0) {
-                    email.setError("Enter the Email");
-                }else if(msg.length() == 0) {
-                    msg.setError("Enter the Query");
-                }else {
-                    progressDialog.show();
-                    progressDialog.setContentView(R.layout.progress_dialog);
-                    progressDialog.getWindow().setBackgroundDrawableResource(
-                            android.R.color.transparent
-                    );
 
-                    addUserdata();
-//
+                addUserdata();
+                progressDialog.show();
+                progressDialog.setContentView(R.layout.progress_dialog);
+                progressDialog.getWindow().setBackgroundDrawableResource(
+                        android.R.color.transparent
+                );
+
+                if(name.length() == 0 && email.length() == 0 && msg.length() == 0){
+                    progressDialog.dismiss();
                 }
 
-                new Handler().postDelayed(new Runnable() {
+                Runnable progressRunnable = new Runnable() {
                     @Override
                     public void run() {
-                        progressDialog.dismiss();
-                        name.getText().clear();
-                        email.getText().clear();
-                        msg.getText().clear();
-                        Toast.makeText(support.this, "Query has been uploaded", Toast.LENGTH_LONG).show();
+                        progressDialog.cancel();
                     }
-                }, 5000);
+                };
+
+                Handler progCanceller = new Handler();
+                progCanceller.postDelayed(progressRunnable, 3000);
+
+
+                name.getText().clear();
+                email.getText().clear();
+                msg.getText().clear();
             }
+
         });
 
     }
@@ -122,7 +122,7 @@ public class support extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setType("message/rfc822");
         intent.setData(Uri.parse("mailto:"));
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"Expertakv03@gmail.com", "Yashchaudharyx20@gmail.com"});
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"Expertakv03@gmail.com", "Yashchaudharyx20@gmail.com"});
 
         try {
 
@@ -136,11 +136,35 @@ public class support extends AppCompatActivity {
 
 
 
+
     private void addUserdata() {
 
         String UserName = name.getText().toString();
         String EmailId = email.getText().toString();
         String Query = msg.getText().toString();
+
+        String PATTERN = "^[a-zA-Z0-9]{0,30}[@][a-zA-Z0-9]{0,10}[.][a-zA-Z]{0,5}$";
+        Pattern patt = Pattern.compile(PATTERN);
+        Matcher match = patt.matcher(email.getText());
+
+
+        if(UserName.isEmpty()){
+            name.setError("Enter the name");
+            name.requestFocus();
+            return;
+        }
+
+        if(!match.matches()) {
+            email.setError("Enter the email");
+            email.requestFocus();
+            return;
+        }
+
+        if(Query.isEmpty()){
+            msg.setError("Enter the query");
+            msg.requestFocus();
+            return;
+        }
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbxvgwIq2d-9mxCOzQVb55kajx09btw3Hln9UKufLaOQU5ikWsyCT7S6v4nPp3qnb6_7/exec", new Response.Listener<String>() {
@@ -169,7 +193,6 @@ public class support extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(stringRequest);
-
 
     }
 
