@@ -1,6 +1,5 @@
 package com.example.radio_ksvcem;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -8,12 +7,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,26 +18,30 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.radio_ksvcem.databinding.ActivitySupportBinding;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class support extends AppCompatActivity {
-    private boolean isbackPressed = false;
+public class support extends drawerBase{
+    private boolean isBackPressed = false;
     EditText name, email, msg;
     TextView sendbtn, call, email_us;
     ProgressDialog progressDialog;
     private static final String TAG = "support";
 
+    ActivitySupportBinding supportBinding;
+
+
     @Override
     public void onBackPressed() {
-        if (isbackPressed) {
+        if (isBackPressed) {
             super.onBackPressed();
             return;
         }
-        isbackPressed = true;
+        isBackPressed = true;
         Intent intent = new Intent(support.this, radio.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
@@ -49,8 +50,9 @@ public class support extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_support);
-        getSupportActionBar().hide();
+        supportBinding = ActivitySupportBinding.inflate(getLayoutInflater());
+        setContentView(supportBinding.getRoot());
+        allocateActivityTitle("Support");
         name = findViewById(R.id.name);
         email = findViewById(R.id.email_id);
         msg = findViewById(R.id.query);

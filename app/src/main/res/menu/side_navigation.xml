@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:title="Home"
+            android:icon="@drawable/home_side_nav"
+            android:id="@+id/home_side_nav"/>
+        <item android:title="About Us"
+            android:icon="@drawable/about_side_nav"
+            android:id="@+id/about_us"/>
+        <item android:title="Privacy Policy"
+            android:icon="@drawable/privacy_policy_side_nav"
+            android:id="@+id/privacy_side_nav"/>
+        <item android:title="Podcast"
+            android:icon="@drawable/headphones"
+            android:id="@+id/podcast_side_nav"/>
+        <item android:title="Gallery"
+            android:icon="@drawable/gallery"
+            android:id="@+id/gallery_side_nav"/>
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item android:title="Rating">
+            <menu>
+                <item android:id="@+id/Review_us_side_nav"
+                    android:icon="@drawable/rating_side_nav"
+                    android:title="Review Us"/>
+
+            </menu>
+        </item>
+    </group>
+
+    <item
+        android:title="  ©️ by KSVCEM"/>
+
+</menu>
