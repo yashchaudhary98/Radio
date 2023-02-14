@@ -85,19 +85,67 @@ public class support extends drawerBase{
 
                 progressDialog = new ProgressDialog(support.this);
 
-
-                addUserdata();
+                boolean isValid = addUserdata();
+                if(!isValid){
+                    return;
+                }
                 progressDialog.show();
                 progressDialog.setContentView(R.layout.progress_dialog);
                 progressDialog.getWindow().setBackgroundDrawableResource(
                         android.R.color.transparent
                 );
 
-                if(name.getText().toString().isEmpty() || email.getText().toString().isEmpty() || msg.getText().toString().isEmpty()){
-                    Toast.makeText(support.this, "Above fields are not valid", Toast.LENGTH_LONG).show();
-                    getCurrentFocus();
+                sendbtn.setEnabled(false);
+
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbxvgwIq2d-9mxCOzQVb55kajx09btw3Hln9UKufLaOQU5ikWsyCT7S6v4nPp3qnb6_7/exec", new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        name.getText().clear();
+                        email.getText().clear();
+                        msg.getText().clear();
+                        Toast.makeText(support.this, "Thanks for writing a feedback", Toast.LENGTH_SHORT).show();
+                        sendbtn.setEnabled(true);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(support.this, "Error in sending the feedback", Toast.LENGTH_SHORT).show();
+
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
+
+                        Map<String, String> params = new HashMap<>();
+                        params.put("action", "addUserdata");
+                        params.put("name", name.getText().toString());
+                        params.put("email", email.getText().toString());
+                        params.put("msg", msg.getText().toString());
+                        return params;
+
+                    }
+                };
+
+                RequestQueue queue = Volley.newRequestQueue(support.this);
+                queue.add(stringRequest);
+
+
+                if(name.getText().toString().isEmpty() && email.getText().toString().isEmpty() && msg.getText().toString().isEmpty()){
+                    Toast.makeText(support.this, "Please fill in all fields with valid values", Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
                 }
+
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                if(!email.getText().toString().matches(emailPattern)) {
+                    progressDialog.dismiss();
+                    return;
+                }
+                if(msg.getText().toString().isEmpty()){
+                    progressDialog.dismiss();
+                }
+
 
                 Runnable progressRunnable = new Runnable() {
                     @Override
@@ -112,9 +160,6 @@ public class support extends drawerBase{
                 progCanceller.postDelayed(progressRunnable, 3000);
 
 
-                name.getText().clear();
-                email.getText().clear();
-                msg.getText().clear();
             }
 
         });
@@ -143,7 +188,7 @@ public class support extends drawerBase{
 
 
 
-    private void addUserdata() {
+    private boolean addUserdata() {
 
         String UserName = name.getText().toString();
         String EmailId = email.getText().toString();
@@ -157,44 +202,18 @@ public class support extends drawerBase{
         if(UserName.isEmpty()){
             name.setError("Enter a valid name");
             name.requestFocus();
-            return;
+            return false;
         }else if(!match.matches()) {
             email.setError("Enter a valid email address");
             email.requestFocus();
-            return;
-        }else if(Query.isEmpty()){
+            return false;
+        } else if(Query.isEmpty()){
             msg.setError("Enter a valid query");
             msg.requestFocus();
-            return;
+            return false;
+        }else{
+            return true;
         }
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbxvgwIq2d-9mxCOzQVb55kajx09btw3Hln9UKufLaOQU5ikWsyCT7S6v4nPp3qnb6_7/exec", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-
-                Map<String, String> params = new HashMap<>();
-                params.put("action", "addUserdata");
-                params.put("name", UserName);
-                params.put("email", EmailId);
-                params.put("msg", Query);
-                return params;
-
-            }
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        queue.add(stringRequest);
 
     }
 

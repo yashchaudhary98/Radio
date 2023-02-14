@@ -42,7 +42,7 @@ public class drawerBase extends AppCompatActivity {
         NavigationView navigationView = drawerLayout.findViewById(R.id.navigation_side_nav);
 //        navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.setCheckedItem(R.id.home_side_nav);
+//        navigationView.setCheckedItem(R.id.home_side_nav);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_open, R.string.navigation_close);
 
@@ -64,20 +64,19 @@ public class drawerBase extends AppCompatActivity {
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse("https://ksvira.edu.in/vira_home.php"));
                         startActivity(i);
-                        return true;
+                        break;
 
                     case R.id.tweet_nav:
                         Intent j = new Intent(Intent.ACTION_VIEW);
                         j.setData(Uri.parse("https://twitter.com/ksvcem"));
                         startActivity(j);
-                        return true;
-
+                        break;
 
                     case R.id.youtube_nav:
                         Intent k = new Intent(Intent.ACTION_VIEW);
                         k.setData(Uri.parse("https://www.youtube.com/"));
                         startActivity(k);
-                        return true;
+                        break;
 
                     case R.id.share_nav:
 
@@ -89,7 +88,7 @@ public class drawerBase extends AppCompatActivity {
                         intent.putExtra("android.intent.extra.SUBJECT", str);
                         intent.putExtra("android.intent.extra.TEXT", str);
                         startActivity(Intent.createChooser(intent, "Share using"));
-
+                        break;
                 }
                 return false;
             }
@@ -146,7 +145,7 @@ public class drawerBase extends AppCompatActivity {
                     overridePendingTransition(0, 0);
                     break;
             }
-            return true;
+            return false;
         }
         });
 

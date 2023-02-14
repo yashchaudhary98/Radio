@@ -36,19 +36,10 @@ public class radio extends drawerBase{
     Handler handler = new Handler();
     LottieAnimationView animation1, animation2;
 
-//    DrawerLayout drawerLayout;
-//    NavigationView navigationView;
-//    MaterialToolbar toolbar;
+    private boolean prepared;
+    private byte[] buffer;
 
-
-//    private boolean isbackPressed = false;
-
-    boolean prepared = false;
-
-    String stream = "https://ksvcem.out.airtime.pro/ksvcem_a?_ga=2.78166676.1819775058.1676160883-927249201.1676160883&_gac=1.54764121.1676160883.CjwKCAiAlp2fBhBPEiwA2Q10D7OyUuB4ew6IvrA98WKmUIalpJMEGtJ7SW3Ui4HYhQm-PZdv8f_eIxoC4bkQAvD_BwE";
-
-
-
+    private static final String RADIO_STATION_URL = "https://ksvcem.out.airtime.pro/ksvcem_a?_ga=2.78166676.1819775058.1676160883-927249201.1676160883&_gac=1.54764121.1676160883.CjwKCAiAlp2fBhBPEiwA2Q10D7OyUuB4ew6IvrA98WKmUIalpJMEGtJ7SW3Ui4HYhQm-PZdv8f_eIxoC4bkQAvD_BwE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,23 +84,22 @@ public class radio extends drawerBase{
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-        new PlayerTask().execute(stream);
+        new PlayerTask().execute(RADIO_STATION_URL);
 
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
                 playbtn.setEnabled(true);
+                prepared = true;
             }
         });
-
 
 
     }
 
 
-
-
-    class PlayerTask extends AsyncTask<String, Void, Boolean> implements MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener {
+    class PlayerTask extends AsyncTask<String, Void, Boolean> implements MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnInfoListener {
+        private boolean isBuffering = true;
 
         @Override
         protected Boolean doInBackground(String... strings) {
@@ -118,6 +108,7 @@ public class radio extends drawerBase{
                 mediaPlayer.setDataSource(strings[0]);
                 mediaPlayer.setOnErrorListener(this);
                 mediaPlayer.setOnPreparedListener(this);
+                mediaPlayer.setOnInfoListener(this);
                 mediaPlayer.prepareAsync();
                 prepared = true;
             } catch (IOException e) {
@@ -138,7 +129,10 @@ public class radio extends drawerBase{
             playbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(mediaPlayer.isPlaying()){
+
+
+                    //If mediaplayer is in an buffering state.
+                    if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
                         seekprog.setProgress(0);
                         playbtn.setImageResource(R.drawable.play);
@@ -146,22 +140,34 @@ public class radio extends drawerBase{
                         animation2.pauseAnimation();
 
 
-                    }
-                    else{
+                    } else {
                         mediaPlayer.start();
                         seekprog.setProgress(100);
                         playbtn.setImageResource(R.drawable.pause);
                         animation1.playAnimation();
                         animation2.playAnimation();
                     }
+
+
+
                 }
             });
 
-
         }
 
-
-
+        @Override
+        public boolean onInfo(MediaPlayer mediaPlayer, int what, int extra) {
+            if (what == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
+                // buffering started, stop playing and show a spinner or something
+                mediaPlayer.pause();
+                isBuffering = true;
+            } else if (what == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
+                // buffering ended, start playing again and hide the spinner
+                mediaPlayer.start();
+                isBuffering = false;
+            }
+            return true;
+        }
     }
 }
 
