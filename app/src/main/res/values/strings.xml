@@ -3,4 +3,19 @@
 
     <string name="navigation_open">Open Navigation Drawer</string>
     <string name="navigation_close">Close Navigation Drawer</string>
+    <string name="home">Home</string>
+    <string name="www">WWW</string>
+    <string name="youtube">Youtube</string>
+    <string name="twitter">Twitter</string>
+    <string name="support">Support</string>
+    <string name="application_logo">Application logo</string>
+    <string name="ksvcem">KSVCEM</string>
+    <string name="about_us">About Us</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="podcast">Podcast</string>
+    <string name="gallery">Gallery</string>
+    <string name="rating">Rating</string>
+    <string name="review_us">Review Us</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

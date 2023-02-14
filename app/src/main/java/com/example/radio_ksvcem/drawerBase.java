@@ -17,32 +17,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-public class drawerBase extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class drawerBase extends AppCompatActivity {
 
+    public static String PACKAGE_NAME = null;
     DrawerLayout drawerLayout;
 
     private boolean isBackPressed = false;
 
 
-    @Override
-    public void onBackPressed() {
-        if (isBackPressed) {
-            super.onBackPressed();
-            return;
-        }
-        isBackPressed = true;
-//        Toast.makeText(this, "Press again to exit", Toast.LENGTH_LONG).show();
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                isBackPressed = false;
-//            }
-//        }, 2000);
-    }
+    // Bottom Navigation code
 
     @Override
     public void setContentView(View view) {
-        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_drawer_base,null);
+        PACKAGE_NAME = getApplicationContext().getPackageName();
+
+        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_drawer_base, null);
         FrameLayout container = drawerLayout.findViewById(R.id.activityContainer);
         container.addView(view);
         super.setContentView(drawerLayout);
@@ -51,95 +40,120 @@ public class drawerBase extends AppCompatActivity implements NavigationView.OnNa
         setSupportActionBar(toolbar);
 
         NavigationView navigationView = drawerLayout.findViewById(R.id.navigation_side_nav);
-        navigationView.setNavigationItemSelectedListener(this);
+//        navigationView.setNavigationItemSelectedListener(this);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,toolbar,R.string.navigation_open,R.string.navigation_close);
+        navigationView.setCheckedItem(R.id.home_side_nav);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_open, R.string.navigation_close);
 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
-        
+
+        bottomNavigationView.setSelectedItemId(R.id.invisible);
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()){
-
-                    case R.id.home_nav:
-                        startActivity(new Intent(drawerBase.this, radio.class));
-                        overridePendingTransition(0,0);
-                        break;
+                switch (item.getItemId()) {
 
                     case R.id.website_nav:
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse("https://ksvira.edu.in/vira_home.php"));
                         startActivity(i);
-                        break;
+                        return true;
+
                     case R.id.tweet_nav:
                         Intent j = new Intent(Intent.ACTION_VIEW);
                         j.setData(Uri.parse("https://twitter.com/ksvcem"));
                         startActivity(j);
-                        break;
+                        return true;
+
+
                     case R.id.youtube_nav:
                         Intent k = new Intent(Intent.ACTION_VIEW);
                         k.setData(Uri.parse("https://www.youtube.com/"));
                         startActivity(k);
-                        break;
-                    case R.id.support_nav:
-                        startActivity(new Intent(drawerBase.this, support.class));
-                        overridePendingTransition(0,0);
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + item.getItemId());
+                        return true;
+
+                    case R.id.share_nav:
+
+                        // Code for sharing the application with others
+
+                        Intent intent = new Intent("android.intent.action.SEND");
+                        intent.setType("text/plain");
+                        String str = "https://play.google.com/store/apps/details?id=" + PACKAGE_NAME;
+                        intent.putExtra("android.intent.extra.SUBJECT", str);
+                        intent.putExtra("android.intent.extra.TEXT", str);
+                        startActivity(Intent.createChooser(intent, "Share using"));
+
                 }
-                return true;
+                return false;
             }
         });
 
-    }
+
+        // Side Navigation code
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
 
+        @Override
+        public boolean onNavigationItemSelected (@NonNull MenuItem item){
+
+            drawerLayout.closeDrawer(GravityCompat.START);
+            switch (item.getItemId()) {
+
+                case R.id.home_side_nav:
+                    Intent intent = new Intent(getApplicationContext(),radio.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                    break;
+                case R.id.about_us:
+                    startActivity(new Intent(getApplicationContext(), about_us.class));
+                    overridePendingTransition(0, 0);
+                    break;
+                case R.id.privacy_side_nav:
+
+                    // May include reorder to front. Double podcast running one same activity.
+
+                    startActivity(new Intent(getApplicationContext(), privacy_policy.class));
+                    overridePendingTransition(0, 0);
+                    break;
+                case R.id.podcast_side_nav:
+                    startActivity(new Intent(getApplicationContext(), podcast_page.class));
+                    overridePendingTransition(0, 0);
+                    break;
+                case R.id.gallery_side_nav:
+                    startActivity(new Intent(getApplicationContext(), gallery.class));
+                    overridePendingTransition(0, 0);
+                    break;
+                case R.id.Review_us_side_nav:
+//                startActivity(new Intent(this,support.class));
+//                overridePendingTransition(0,0);
+//                break;
 
 
+                    // Code for the rating of the application.
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    break;
 
-        drawerLayout.closeDrawer(GravityCompat.START);
-        switch (item.getItemId()){
-
-            case R.id.home_side_nav:
-                startActivity(new Intent(this,radio.class));
-                overridePendingTransition(0,0);
-                break;
-            case R.id.about_us:
-                startActivity(new Intent(this, about_us.class));
-                overridePendingTransition(0,0);
-                break;
-            case R.id.privacy_side_nav:
-                startActivity(new Intent(this,privacy_policy.class));
-                overridePendingTransition(0,0);
-                break;
-            case R.id.podcast_side_nav:
-                startActivity(new Intent(this,podcast_page.class));
-                overridePendingTransition(0,0);
-                break;
-            case R.id.gallery_side_nav:
-                startActivity(new Intent(this, gallery.class));
-                overridePendingTransition(0,0);
-                break;
-            case R.id.Review_us_side_nav:
-                startActivity(new Intent(this,support.class));
-                overridePendingTransition(0,0);
-                break;
+                case R.id.support_nav:
+                    startActivity(new Intent(getApplicationContext(), support.class));
+                    overridePendingTransition(0, 0);
+                    break;
+            }
+            return true;
         }
-        return true;
-    }
+        });
 
-    protected void allocateActivityTitle(String titleString){
-        if(getSupportActionBar() != null){
+
+    }
+    protected void allocateActivityTitle (String titleString){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(titleString);
         }
     }

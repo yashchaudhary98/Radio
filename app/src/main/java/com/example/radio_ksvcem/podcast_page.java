@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.radio_ksvcem.databinding.ActivityPodcastPageBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,12 +43,14 @@ public class podcast_page extends drawerBase{
     ArrayList<String> songartists = new ArrayList<>();
     ArrayList<String> songurls = new ArrayList<>();
     List<SliderItems> sliderItems = new ArrayList<>();
+    private ActivityPodcastPageBinding activityPodcastPageBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        activityPodcastPageBinding = ActivityPodcastPageBinding.inflate(getLayoutInflater());
+        activityPodcastPageBinding = ActivityPodcastPageBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_podcast_page);
-//        allocateActivityTitle("Podcast");
+        allocateActivityTitle("Podcast");
 
         viewPager2 = findViewById(R.id.ViewpagerImageSlider);
 

@@ -93,7 +93,9 @@ public class support extends drawerBase{
                         android.R.color.transparent
                 );
 
-                if(name.length() == 0 && email.length() == 0 && msg.length() == 0){
+                if(name.getText().toString().isEmpty() || email.getText().toString().isEmpty() || msg.getText().toString().isEmpty()){
+                    Toast.makeText(support.this, "Above fields are not valid", Toast.LENGTH_LONG).show();
+                    getCurrentFocus();
                     progressDialog.dismiss();
                 }
 
@@ -103,6 +105,8 @@ public class support extends drawerBase{
                         progressDialog.cancel();
                     }
                 };
+
+                // ProgressBar timer to delay the progress
 
                 Handler progCanceller = new Handler();
                 progCanceller.postDelayed(progressRunnable, 3000);
@@ -146,24 +150,20 @@ public class support extends drawerBase{
         String Query = msg.getText().toString();
 
         String PATTERN = "^[a-zA-Z0-9]{0,30}[@][a-zA-Z0-9]{0,10}[.][a-zA-Z]{0,5}$";
-        Pattern patt = Pattern.compile(PATTERN);
+        Pattern patt = Pattern.compile(PATTERN, Pattern.CASE_INSENSITIVE);
         Matcher match = patt.matcher(email.getText());
 
 
         if(UserName.isEmpty()){
-            name.setError("Enter the name");
+            name.setError("Enter a valid name");
             name.requestFocus();
             return;
-        }
-
-        if(!match.matches()) {
-            email.setError("Enter the email");
+        }else if(!match.matches()) {
+            email.setError("Enter a valid email address");
             email.requestFocus();
             return;
-        }
-
-        if(Query.isEmpty()){
-            msg.setError("Enter the query");
+        }else if(Query.isEmpty()){
+            msg.setError("Enter a valid query");
             msg.requestFocus();
             return;
         }

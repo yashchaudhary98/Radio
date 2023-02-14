@@ -45,7 +45,7 @@ public class radio extends drawerBase{
 
     boolean prepared = false;
 
-    String stream = "http://ksvcempro.out.airtime.pro:8000/ksvcempro_b?_ga=2.183410854.1420599539.1661599353-720114763.1661599353&_gac=1.154210122.1661599353.CjwKCAjwgaeYBhBAEiwAvMgp2guW_wq5qKZIWMyEMZRLJUc8FnhBJg1aG7Y7qQQFMr5q_BAA-ruPaxoCj_cQAvD_BwE";
+    String stream = "https://ksvcem.out.airtime.pro/ksvcem_a?_ga=2.78166676.1819775058.1676160883-927249201.1676160883&_gac=1.54764121.1676160883.CjwKCAiAlp2fBhBPEiwA2Q10D7OyUuB4ew6IvrA98WKmUIalpJMEGtJ7SW3Ui4HYhQm-PZdv8f_eIxoC4bkQAvD_BwE";
 
 
 
@@ -144,6 +144,7 @@ public class radio extends drawerBase{
                         playbtn.setImageResource(R.drawable.play);
                         animation1.pauseAnimation();
                         animation2.pauseAnimation();
+
 
                     }
                     else{

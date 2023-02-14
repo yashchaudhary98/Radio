@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
 android:layout_height="match_parent"
 xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -17,28 +18,33 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#67BA"
+        android:background="@drawable/bottom_gradient"
         app:navigationIcon="@drawable/side_nav_tool"
-        app:titleTextColor="@color/white"/>
+        app:titleTextColor="@color/white" />
 </com.google.android.material.appbar.AppBarLayout>
 
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:id="@+id/activityContainer"
-    app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
-    app:layout_constraintTop_toBottomOf="@id/appBarLayout"/>
 
+    <FrameLayout
+        android:id="@+id/activityContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="-16dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:background="@color/black"
+        app:itemIconTint="#ffff"
+        app:itemTextColor="#ffff"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:menu="@menu/bottom_nav"
-        android:background="#4D4D4D"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/bottom_nav" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
