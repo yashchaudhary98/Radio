@@ -25,8 +25,6 @@ public class drawerBase extends AppCompatActivity {
     private boolean isBackPressed = false;
 
 
-    // Bottom Navigation code
-
     @Override
     public void setContentView(View view) {
         PACKAGE_NAME = getApplicationContext().getPackageName();
@@ -40,9 +38,6 @@ public class drawerBase extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         NavigationView navigationView = drawerLayout.findViewById(R.id.navigation_side_nav);
-//        navigationView.setNavigationItemSelectedListener(this);
-
-//        navigationView.setCheckedItem(R.id.home_side_nav);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_open, R.string.navigation_close);
 

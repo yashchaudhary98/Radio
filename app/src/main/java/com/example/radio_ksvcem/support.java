@@ -1,6 +1,7 @@
 package com.example.radio_ksvcem;
 
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -166,6 +167,7 @@ public class support extends drawerBase{
 
     }
 
+    @SuppressLint("IntentReset")
     public void composeEmail() {
 
         Log.d(TAG, "email_us");
