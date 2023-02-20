@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:background="#FFF6DC"
     android:orientation="vertical"
     tools:context=".Splash">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginTop="200dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -22,25 +22,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/application_logo"
             android:padding="40dp"
-            app:srcCompat="@drawable/radio_logo" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/radioText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
-            android:gravity="center"
-            android:text="@string/ksvcem"
-            android:textColor="#F6A910"
-            android:textSize="35sp"
-            android:textStyle="bold" />
+            app:srcCompat="@drawable/logo" />
     </LinearLayout>
 
 

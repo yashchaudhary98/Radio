@@ -10,13 +10,22 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/radio_logo"
+        android:icon="@drawable/main_logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/radio_logo"
+        android:roundIcon="@drawable/main_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Radio_Ksvcem"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".MyAppIntro"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".drawerBase"
             android:exported="false" />
@@ -45,11 +54,6 @@
             android:exported="true"
             android:noHistory="true"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".support"
