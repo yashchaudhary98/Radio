@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -16,6 +15,7 @@
         android:roundIcon="@drawable/radio_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Radio_Ksvcem"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".drawerBase"
@@ -23,22 +23,22 @@
         <activity
             android:name=".privacy_policy"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:noHistory="true"/>
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".about_us"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:noHistory="true"/>
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".gallery"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:noHistory="true"/>
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".podcast_page"
-            android:screenOrientation="portrait"
-            android:exported="false"/>
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Splash"
             android:configChanges="orientation"
@@ -53,12 +53,12 @@
         </activity>
         <activity
             android:name=".support"
-            android:windowSoftInputMode="adjustPan"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
             android:exported="false"
             android:label="Contact Us"
             android:noHistory="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".radio"
             android:configChanges="orientation"
