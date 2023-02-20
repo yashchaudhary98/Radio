@@ -1,6 +1,7 @@
 package com.example.radio_ksvcem;
 
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.MenuItem;
@@ -111,9 +112,6 @@ public class drawerBase extends AppCompatActivity {
                     overridePendingTransition(0, 0);
                     break;
                 case R.id.privacy_side_nav:
-
-                    // May include reorder to front. Double podcast running one same activity.
-
                     startActivity(new Intent(getApplicationContext(), privacy_policy.class));
                     overridePendingTransition(0, 0);
                     break;
@@ -126,13 +124,12 @@ public class drawerBase extends AppCompatActivity {
                     overridePendingTransition(0, 0);
                     break;
                 case R.id.Review_us_side_nav:
-//                startActivity(new Intent(this,support.class));
-//                overridePendingTransition(0,0);
-//                break;
-
-
                     // Code for the rating of the application.
-
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + PACKAGE_NAME)));
+                    } catch (ActivityNotFoundException e) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + PACKAGE_NAME)));
+                    }
                     break;
 
                 case R.id.support_nav:
