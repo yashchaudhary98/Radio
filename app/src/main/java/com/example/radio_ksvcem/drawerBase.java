@@ -70,7 +70,7 @@ public class drawerBase extends AppCompatActivity {
 
                     case R.id.youtube_nav:
                         Intent k = new Intent(Intent.ACTION_VIEW);
-                        k.setData(Uri.parse("https://www.youtube.com/"));
+                        k.setData(Uri.parse("https://https://www.facebook.com/KSVCEM/"));
                         startActivity(k);
                         break;
 
@@ -113,10 +113,6 @@ public class drawerBase extends AppCompatActivity {
                     break;
                 case R.id.privacy_side_nav:
                     startActivity(new Intent(getApplicationContext(), privacy_policy.class));
-                    overridePendingTransition(0, 0);
-                    break;
-                case R.id.podcast_side_nav:
-                    startActivity(new Intent(getApplicationContext(), podcast_page.class));
                     overridePendingTransition(0, 0);
                     break;
                 case R.id.gallery_side_nav:

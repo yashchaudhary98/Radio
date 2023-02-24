@@ -11,9 +11,6 @@
         <item android:title="@string/privacy_policy"
             android:icon="@drawable/privacy_policy_side_nav"
             android:id="@+id/privacy_side_nav"/>
-        <item android:title="@string/podcast"
-            android:icon="@drawable/headphones"
-            android:id="@+id/podcast_side_nav"/>
         <item android:title="@string/gallery"
             android:icon="@drawable/gallery"
             android:id="@+id/gallery_side_nav"/>

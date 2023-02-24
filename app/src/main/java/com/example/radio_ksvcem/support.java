@@ -66,7 +66,7 @@ public class support extends drawerBase{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:11111111"));
+                intent.setData(Uri.parse("tel:+918960258960"));
                 startActivity(intent);
             }
         });
@@ -175,7 +175,7 @@ public class support extends drawerBase{
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setType("message/rfc822");
         intent.setData(Uri.parse("mailto:"));
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"Expertakv03@gmail.com", "Yashchaudharyx20@gmail.com"});
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"radiosandesh89.6@ksvira.edu.in"});
 
         try {
 

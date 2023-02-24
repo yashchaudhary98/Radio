@@ -3,22 +3,22 @@
 
     <item android:id="@+id/website_nav"
         android:enabled="true"
-        android:title="@string/www"
-        android:icon="@drawable/www"/>
+        android:title="@string/whatsapp"
+        android:icon="@drawable/whatsapp"/>
     <item android:id="@+id/youtube_nav"
         android:enabled="true"
-        android:title="@string/youtube"
-        android:icon="@drawable/yt_nav"/>
+        android:title="@string/mail"
+        android:icon="@drawable/mail"/>
 
     <item android:id="@+id/tweet_nav"
         android:enabled="true"
-        android:title="@string/twitter"
-        android:icon="@drawable/tweet"/>
+        android:title="@string/facebook"
+        android:icon="@drawable/facebook"/>
 
     <item android:id="@+id/share_nav"
         android:enabled="true"
         android:title="Share"
-        android:icon="@drawable/share_nav"/>
+        android:icon="@drawable/share"/>
 
     <item
         android:id="@+id/invisible"
