@@ -26,7 +26,7 @@ public class about_us extends drawerBase {
         allocateActivityTitle("About Us");
         webView = findViewById(R.id.aboutus_webview);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("https://sandesh-radio-about-us.netlify.app/");
+        webView.loadUrl("https://inspiring-tartufo-679fb9.netlify.app/");
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
