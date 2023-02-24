@@ -42,4 +42,9 @@ public class gallery extends drawerBase{
         Glide.with(this).load(R.raw.r10).into(image10);
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

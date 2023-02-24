@@ -219,5 +219,8 @@ public class support extends drawerBase{
 
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

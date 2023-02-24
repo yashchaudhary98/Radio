@@ -42,4 +42,9 @@ public class privacy_policy extends drawerBase {
             super.onBackPressed();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
