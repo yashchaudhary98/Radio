@@ -4,9 +4,9 @@
     <string name="navigation_open">Open Navigation Drawer</string>
     <string name="navigation_close">Close Navigation Drawer</string>
     <string name="home">Home</string>
-    <string name="www">WWW</string>
-    <string name="youtube">Youtube</string>
-    <string name="twitter">Twitter</string>
+    <string name="whatsapp">Whatsapp</string>
+    <string name="mail">Mail</string>
+    <string name="facebook">Facebook</string>
     <string name="support">Support</string>
     <string name="application_logo">Application logo</string>
     <string name="ksvcem">KSVCEM</string>
