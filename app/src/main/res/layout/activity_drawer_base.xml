@@ -24,7 +24,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="#d1bf8d"
+                android:background="#C9A76B"
                 app:navigationIcon="@drawable/side_nav_tool"/>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -34,16 +34,17 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_editor_absoluteX="-16dp" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             app:itemIconSize="32dp"
-            android:background="#d1bf8d"
+            android:background="#C9A76B"
             app:itemBackground="@android:color/transparent"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"

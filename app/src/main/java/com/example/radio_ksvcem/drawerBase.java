@@ -115,10 +115,6 @@ public class drawerBase extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), privacy_policy.class));
                     overridePendingTransition(0, 0);
                     break;
-                case R.id.podcast_side_nav:
-                    startActivity(new Intent(getApplicationContext(), podcast_page.class));
-                    overridePendingTransition(0, 0);
-                    break;
                 case R.id.gallery_side_nav:
                     startActivity(new Intent(getApplicationContext(), gallery.class));
                     overridePendingTransition(0, 0);

@@ -48,9 +48,7 @@ public class radio extends drawerBase{
     LottieAnimationView animation1, animation2;
 
     private boolean prepared;
-    private byte[] buffer;
-
-    private static final String RADIO_STATION_URL = "https://ksvcem.out.airtime.pro/ksvcem_a?_ga=2.78166676.1819775058.1676160883-927249201.1676160883&_gac=1.54764121.1676160883.CjwKCAiAlp2fBhBPEiwA2Q10D7OyUuB4ew6IvrA98WKmUIalpJMEGtJ7SW3Ui4HYhQm-PZdv8f_eIxoC4bkQAvD_BwE";
+    private static final String RADIO_STATION_URL = "https://ksvcem1.out.airtime.pro/ksvcem1_a?_ga=2.63170347.560964941.1676879600-807033401.1676879600&_gac=1.48798164.1676879600.Cj0KCQiArsefBhCbARIsAP98hXS8OpOikG2XBRHScGv5l09Py7ZktiYv2JEHVGusb4KihX_zVn6vqbUaArO3EALw_wcB";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +88,7 @@ public class radio extends drawerBase{
                 });
 
 
-        mediaPlayer = new MediaPlayer();
+        mediaPlayer = MediaPlayerSingleton.getInstance();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         new PlayerTask().execute(RADIO_STATION_URL);
@@ -105,7 +103,6 @@ public class radio extends drawerBase{
 
 
     }
-
 
     class PlayerTask extends AsyncTask<String, Void, Boolean> implements MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnInfoListener {
         private boolean isBuffering = true;
@@ -214,11 +211,19 @@ public class radio extends drawerBase{
             if (what == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
                 // buffering started, stop playing and show a spinner or something
                 progressDialog = ProgressDialog.show(radio.this, "", "Buffering. Please wait...", true);
+                return true;
             } else if (what == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
                 // buffering ended, start playing again and hide the spinner
                 progressDialog.dismiss();
+                return true;
+            } else if (what == MediaPlayer.MEDIA_ERROR_UNKNOWN && extra == 703) {
+                // Recoverable error has occurred, playback can be resumed
+                mediaPlayer.reset();
+                new PlayerTask().execute(RADIO_STATION_URL);
+                return true;
+            } else {
+                return false;
             }
-            return true;
         }
     }
 }
