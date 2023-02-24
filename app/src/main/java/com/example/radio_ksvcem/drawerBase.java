@@ -62,8 +62,9 @@ public class drawerBase extends AppCompatActivity {
                 switch (item.getItemId()) {
 
                     case R.id.whatsapp:
+                        String url = "https://wa.me/+918960258960";
                         Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse("https://ksvira.edu.in/vira_home.php"));
+                        i.setData(Uri.parse(url));
                         startActivity(i);
                         break;
 
