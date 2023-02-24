@@ -1,12 +1,17 @@
 package com.example.radio_ksvcem;
 
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -56,19 +61,17 @@ public class drawerBase extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
 
-                    case R.id.website_nav:
+                    case R.id.whatsapp:
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse("https://ksvira.edu.in/vira_home.php"));
                         startActivity(i);
                         break;
 
-                    case R.id.tweet_nav:
-                        Intent j = new Intent(Intent.ACTION_VIEW);
-                        j.setData(Uri.parse("https://twitter.com/ksvcem"));
-                        startActivity(j);
+                    case R.id.mail:
+                        composeEmail();
                         break;
 
-                    case R.id.youtube_nav:
+                    case R.id.facebook:
                         Intent k = new Intent(Intent.ACTION_VIEW);
                         k.setData(Uri.parse("https://https://www.facebook.com/KSVCEM/"));
                         startActivity(k);
@@ -144,4 +147,24 @@ public class drawerBase extends AppCompatActivity {
             getSupportActionBar().setTitle(titleString);
         }
     }
+    @SuppressLint("IntentReset")
+    public void composeEmail() {
+
+        Log.d(TAG, "email_us");
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setType("message/rfc822");
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"radiosandesh89.6@ksvira.edu.in"});
+
+        try {
+
+            startActivity(Intent.createChooser(intent, "choose any below application"));
+        } catch (android.content.ActivityNotFoundException ex) {
+
+            Toast.makeText(getApplicationContext(), "No supported application installed", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
 }
