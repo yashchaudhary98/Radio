@@ -54,12 +54,12 @@ public class support extends drawerBase{
         supportBinding = ActivitySupportBinding.inflate(getLayoutInflater());
         setContentView(supportBinding.getRoot());
         allocateActivityTitle("Support");
-        name = findViewById(R.id.name);
-        email = findViewById(R.id.email_id);
-        msg = findViewById(R.id.query);
-        sendbtn = findViewById(R.id.Send);
-        call = findViewById(R.id.contact);
-        email_us = findViewById(R.id.mail);
+        name = supportBinding.name;
+        email = supportBinding.emailId;
+        msg = supportBinding.query;
+        sendbtn = supportBinding.Send;
+        call = supportBinding.contact;
+        email_us = supportBinding.mail;
 
 
         call.setOnClickListener(new View.OnClickListener() {

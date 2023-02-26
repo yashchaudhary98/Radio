@@ -18,16 +18,16 @@ public class gallery extends drawerBase{
         setContentView(activityGalleryBinding.getRoot());
         allocateActivityTitle("Gallery");
 
-        image1 = findViewById(R.id.img1);
-        image2 = findViewById(R.id.img2);
-        image3 = findViewById(R.id.img3);
-        image4 = findViewById(R.id.img4);
-        image5 = findViewById(R.id.img5);
-        image6 = findViewById(R.id.img6);
-        image7 = findViewById(R.id.img7);
-        image8 = findViewById(R.id.img8);
-        image9 = findViewById(R.id.img9);
-        image10 = findViewById(R.id.img10);
+        image1 = activityGalleryBinding.img1;
+        image2 = activityGalleryBinding.img2;
+        image3 = activityGalleryBinding.img3;
+        image4 = activityGalleryBinding.img4;
+        image5 = activityGalleryBinding.img5;
+        image6 = activityGalleryBinding.img6;
+        image7 = activityGalleryBinding.img7;
+        image8 = activityGalleryBinding.img8;
+        image9 = activityGalleryBinding.img9;
+        image10 = activityGalleryBinding.img10;
 
 
         Glide.with(this).load(R.raw.r1).into(image1);

@@ -6,9 +6,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -34,6 +32,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class radio extends drawerBase{
 
@@ -44,11 +45,11 @@ public class radio extends drawerBase{
     TextView live;
     SeekBar seekprog;
     ImageSlider mainslide;
-    Handler handler = new Handler();
     LottieAnimationView animation1, animation2;
 
     private boolean prepared;
     private static final String RADIO_STATION_URL = "https://ksvcem1.out.airtime.pro/ksvcem1_a?_ga=2.63170347.560964941.1676879600-807033401.1676879600&_gac=1.48798164.1676879600.Cj0KCQiArsefBhCbARIsAP98hXS8OpOikG2XBRHScGv5l09Py7ZktiYv2JEHVGusb4KihX_zVn6vqbUaArO3EALw_wcB";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +59,12 @@ public class radio extends drawerBase{
         setContentView(activityRadioBinding.getRoot());
         allocateActivityTitle("Radio");
 
-        playbtn = findViewById(R.id.play);
-        seekprog = findViewById(R.id.seekbar);
-        animation1 = findViewById(R.id.animation1_view);
-        animation2 = findViewById(R.id.animation2_view);
-        live = findViewById(R.id.radio_live);
-
-
-        mainslide = findViewById(R.id.image_slider);
+        playbtn = activityRadioBinding.play;
+        seekprog = activityRadioBinding.seekbar;
+        animation1 = activityRadioBinding.animation1View;
+        animation2 = activityRadioBinding.animation2View;
+        live = activityRadioBinding.radioLive;
+        mainslide = activityRadioBinding.imageSlider;
 
         final List<SlideModel> images = new ArrayList<>();
 
@@ -74,7 +73,7 @@ public class radio extends drawerBase{
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot data:dataSnapshot.getChildren())
-                            images.add(new SlideModel(data.child("url").getValue().toString(), ScaleTypes.FIT));
+                            images.add(new SlideModel(Objects.requireNonNull(data.child("url").getValue()).toString(), ScaleTypes.FIT));
 
                         mainslide.setImageList(images,ScaleTypes.FIT);
 
@@ -96,27 +95,43 @@ public class radio extends drawerBase{
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
-//                playbtn.setEnabled(true);
                 prepared = true;
             }
         });
 
-
     }
 
-    class PlayerTask extends AsyncTask<String, Void, Boolean> implements MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnInfoListener {
-        private boolean isBuffering = true;
+    class PlayerTask implements MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnInfoListener {
         private boolean isLive = false;
         private ProgressDialog progressDialog;
 
+        private final Executor executor;
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = ProgressDialog.show(radio.this, "", "Loading. Please wait...", true);
+        public PlayerTask(){
+            executor = Executors.newSingleThreadExecutor();
         }
 
-        @Override
+        public void execute(String... strings){
+            executor.execute(() -> {
+                doInBackground(strings);
+            });
+        }
+
+        private void showProgressDialog() {
+            runOnUiThread(() -> {
+                progressDialog = ProgressDialog.show(radio.this, "","Loading. Please wait...", true);
+            });
+        }
+
+        private void dismissProgressDialog() {
+            runOnUiThread(() -> {
+                if(progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            });
+        }
+
+
         protected Boolean doInBackground(String... strings) {
 
             // Check for internet connectivity
@@ -124,10 +139,7 @@ public class radio extends drawerBase{
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (activeNetwork == null || !activeNetwork.isConnected()) {
             // Internet not available, dismiss the dialog bar
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-
+                dismissProgressDialog();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -137,6 +149,7 @@ public class radio extends drawerBase{
                 return false;
             }
             try {
+                showProgressDialog();
                 URL url = new URL(strings[0]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("HEAD");
@@ -157,13 +170,17 @@ public class radio extends drawerBase{
 
         @Override
         public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+            dismissProgressDialog();
+            runOnUiThread(() -> {
+                Toast.makeText(radio.this, "Something went wrong. Please try again later", Toast.LENGTH_LONG).show();
+            });
             return false;
         }
 
         @Override
         public void onPrepared(MediaPlayer mediaPlayer) {
 
-            progressDialog.dismiss();
+            dismissProgressDialog();
             if(isLive){
                 playbtn.setEnabled(true);
                 prepared = true;
@@ -206,6 +223,7 @@ public class radio extends drawerBase{
 
         }
 
+
         @Override
         public boolean onInfo(MediaPlayer mediaPlayer, int what, int extra) {
             if (what == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
@@ -214,16 +232,12 @@ public class radio extends drawerBase{
                 return true;
             } else if (what == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
                 // buffering ended, start playing again and hide the spinner
-                progressDialog.dismiss();
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
                 return true;
-            } else if (what == MediaPlayer.MEDIA_ERROR_UNKNOWN && extra == 703) {
-                // Recoverable error has occurred, playback can be resumed
-                mediaPlayer.reset();
-                new PlayerTask().execute(RADIO_STATION_URL);
-                return true;
-            } else {
-                return false;
             }
+            return false;
         }
     }
 }

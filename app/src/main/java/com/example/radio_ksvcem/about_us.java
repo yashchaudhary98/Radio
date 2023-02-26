@@ -20,12 +20,13 @@ public class about_us extends drawerBase {
         activityAboutUsBinding = ActivityAboutUsBinding.inflate(getLayoutInflater());
         setContentView(activityAboutUsBinding.getRoot());
         allocateActivityTitle("About Us");
-        webView = findViewById(R.id.aboutus_webview);
+        webView = activityAboutUsBinding.aboutusWebview;
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl("https://about-us-sandesh.netlify.app/");
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        webView.getSettings().setCacheMode(webSettings.LOAD_CACHE_ELSE_NETWORK);
         webView.getSettings().setBuiltInZoomControls(true);
 
         webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);

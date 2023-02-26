@@ -78,7 +78,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_marginEnd="10dp"
-
+                        android:layout_marginStart="10dp"
                         app:lottie_autoPlay="false"
                         app:lottie_loop="true"
                         app:lottie_rawRes="@raw/live" />
@@ -89,6 +89,7 @@
                         android:layout_height="50dp"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:soundEffectsEnabled="false"
                         tools:ignore="SpeakableTextPresentCheck" />
 
