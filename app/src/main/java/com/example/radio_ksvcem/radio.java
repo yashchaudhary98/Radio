@@ -48,7 +48,7 @@ public class radio extends drawerBase{
     LottieAnimationView animation1, animation2;
 
     private boolean prepared;
-    private static final String RADIO_STATION_URL = "https://ksvcem1.out.airtime.pro/ksvcem1_a?_ga=2.63170347.560964941.1676879600-807033401.1676879600&_gac=1.48798164.1676879600.Cj0KCQiArsefBhCbARIsAP98hXS8OpOikG2XBRHScGv5l09Py7ZktiYv2JEHVGusb4KihX_zVn6vqbUaArO3EALw_wcB";
+    private static final String RADIO_STATION_URL = "https://ksvcem2.out.airtime.pro/ksvcem2_a";
 
 
     @Override
