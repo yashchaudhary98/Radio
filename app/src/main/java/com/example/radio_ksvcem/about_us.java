@@ -1,5 +1,6 @@
 package com.example.radio_ksvcem;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -14,6 +15,7 @@ public class about_us extends drawerBase {
     WebView webView;
 
     ActivityAboutUsBinding activityAboutUsBinding;
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +28,7 @@ public class about_us extends drawerBase {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-        webView.getSettings().setCacheMode(webSettings.LOAD_CACHE_ELSE_NETWORK);
+        webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         webView.getSettings().setBuiltInZoomControls(true);
 
         webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);

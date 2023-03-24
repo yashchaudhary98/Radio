@@ -28,9 +28,6 @@ public class drawerBase extends AppCompatActivity {
     public static String PACKAGE_NAME = null;
     DrawerLayout drawerLayout;
 
-    private boolean isBackPressed = false;
-
-
     @Override
     public void setContentView(View view) {
         PACKAGE_NAME = getApplicationContext().getPackageName();

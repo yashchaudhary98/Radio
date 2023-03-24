@@ -120,7 +120,8 @@
                         android:layout_gravity="center"
                         android:drawingCacheQuality="high"
                         android:src="@drawable/play"
-                        tools:ignore="SpeakableTextPresentCheck" />
+                        tools:ignore="SpeakableTextPresentCheck"
+                        android:contentDescription="@string/play_btn" />
 
                 </LinearLayout>
 

@@ -8,15 +8,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.radio_ksvcem.databinding.ActivitySupportBinding;
@@ -62,106 +59,80 @@ public class support extends drawerBase{
         email_us = supportBinding.mail;
 
 
-        call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:+918960258960"));
-                startActivity(intent);
-            }
+        call.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:+918960258960"));
+            startActivity(intent);
         });
 
 
-        email_us.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                composeEmail();
+        email_us.setOnClickListener(view -> composeEmail());
+
+
+        sendbtn.setOnClickListener(view -> {
+
+            progressDialog = new ProgressDialog(support.this);
+
+            boolean isValid = addUserdata();
+            if(!isValid){
+                return;
             }
-        });
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.progress_dialog);
+            progressDialog.getWindow().setBackgroundDrawableResource(
+                    android.R.color.transparent
+            );
+
+            sendbtn.setEnabled(false);
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbxvgwIq2d-9mxCOzQVb55kajx09btw3Hln9UKufLaOQU5ikWsyCT7S6v4nPp3qnb6_7/exec", response -> {
 
 
-        sendbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                name.getText().clear();
+                email.getText().clear();
+                msg.getText().clear();
+                Toast.makeText(support.this, "Thanks for writing a feedback", Toast.LENGTH_SHORT).show();
+                sendbtn.setEnabled(true);
+            }, error -> Toast.makeText(support.this, "Error in sending the feedback", Toast.LENGTH_SHORT).show()) {
+                @Override
+                protected Map<String, String> getParams() {
 
-                progressDialog = new ProgressDialog(support.this);
+                    Map<String, String> params = new HashMap<>();
+                    params.put("action", "addUserdata");
+                    params.put("name", name.getText().toString());
+                    params.put("email", email.getText().toString());
+                    params.put("msg", msg.getText().toString());
+                    return params;
 
-                boolean isValid = addUserdata();
-                if(!isValid){
-                    return;
                 }
-                progressDialog.show();
-                progressDialog.setContentView(R.layout.progress_dialog);
-                progressDialog.getWindow().setBackgroundDrawableResource(
-                        android.R.color.transparent
-                );
+            };
 
-                sendbtn.setEnabled(false);
-
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbxvgwIq2d-9mxCOzQVb55kajx09btw3Hln9UKufLaOQU5ikWsyCT7S6v4nPp3qnb6_7/exec", new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+            RequestQueue queue = Volley.newRequestQueue(support.this);
+            queue.add(stringRequest);
 
 
-                        name.getText().clear();
-                        email.getText().clear();
-                        msg.getText().clear();
-                        Toast.makeText(support.this, "Thanks for writing a feedback", Toast.LENGTH_SHORT).show();
-                        sendbtn.setEnabled(true);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(support.this, "Error in sending the feedback", Toast.LENGTH_SHORT).show();
-
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() {
-
-                        Map<String, String> params = new HashMap<>();
-                        params.put("action", "addUserdata");
-                        params.put("name", name.getText().toString());
-                        params.put("email", email.getText().toString());
-                        params.put("msg", msg.getText().toString());
-                        return params;
-
-                    }
-                };
-
-                RequestQueue queue = Volley.newRequestQueue(support.this);
-                queue.add(stringRequest);
-
-
-                if(name.getText().toString().isEmpty() && email.getText().toString().isEmpty() && msg.getText().toString().isEmpty()){
-                    Toast.makeText(support.this, "Please fill in all fields with valid values", Toast.LENGTH_LONG).show();
-                    progressDialog.dismiss();
-                }
-
-                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-                if(!email.getText().toString().matches(emailPattern)) {
-                    progressDialog.dismiss();
-                    return;
-                }
-                if(msg.getText().toString().isEmpty()){
-                    progressDialog.dismiss();
-                }
-
-
-                Runnable progressRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        progressDialog.cancel();
-                    }
-                };
-
-                // ProgressBar timer to delay the progress
-
-                Handler progCanceller = new Handler();
-                progCanceller.postDelayed(progressRunnable, 3000);
-
-
+            if(name.getText().toString().isEmpty() && email.getText().toString().isEmpty() && msg.getText().toString().isEmpty()){
+                Toast.makeText(support.this, "Please fill in all fields with valid values", Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
             }
+
+            String emailPattern = "[a-zA-Z\\d._-]+@[a-z]+\\.+[a-z]+";
+            if(!email.getText().toString().matches(emailPattern)) {
+                progressDialog.dismiss();
+                return;
+            }
+            if(msg.getText().toString().isEmpty()){
+                progressDialog.dismiss();
+            }
+
+
+            Runnable progressRunnable = () -> progressDialog.cancel();
+
+            // ProgressBar timer to delay the progress
+
+            Handler progCanceller = new Handler();
+            progCanceller.postDelayed(progressRunnable, 3000);
+
 
         });
 
@@ -196,9 +167,9 @@ public class support extends drawerBase{
         String EmailId = email.getText().toString();
         String Query = msg.getText().toString();
 
-        String PATTERN = "^[a-zA-Z0-9]{0,30}[@][a-zA-Z0-9]{0,10}[.][a-zA-Z]{0,5}$";
+        String PATTERN = "^[a-zA-Z\\d]{0,30}@[a-zA-Z\\d]{0,10}[.][a-zA-Z]{0,5}$";
         Pattern patt = Pattern.compile(PATTERN, Pattern.CASE_INSENSITIVE);
-        Matcher match = patt.matcher(email.getText());
+        Matcher match = patt.matcher(EmailId);
 
 
         if(UserName.isEmpty()){

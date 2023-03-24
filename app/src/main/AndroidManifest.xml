@@ -49,16 +49,11 @@
             android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".podcast_page"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Splash"
             android:exported="true"
             android:noHistory="true"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".support"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"

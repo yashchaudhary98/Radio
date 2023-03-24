@@ -19,7 +19,5 @@ public class Splash extends AppCompatActivity {
             startActivity(intent);
         },2000);
 
-//        Animation animation = AnimationUtils.loadAnimation(Splash.this, R.anim.animation);
-//        radio.startAnimation(animation);
     }
 }

@@ -35,7 +35,7 @@ public class MyAppIntro extends AppIntro {
         if(sharedPreferences != null){
             boolean checkedShared = sharedPreferences.getBoolean("checkedState", false);
 
-            if(checkedShared == true){
+            if(checkedShared){
                 startActivity(new Intent(getApplicationContext(), Splash.class));
                 finish();
             }

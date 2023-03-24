@@ -28,8 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -48,8 +46,7 @@ public class radio extends drawerBase{
     LottieAnimationView animation1, animation2;
 
     private boolean prepared;
-    private static final String RADIO_STATION_URL = "https://ksvcem1.out.airtime.pro/ksvcem1_a?_ga=2.63170347.560964941.1676879600-807033401.1676879600&_gac=1.48798164.1676879600.Cj0KCQiArsefBhCbARIsAP98hXS8OpOikG2XBRHScGv5l09Py7ZktiYv2JEHVGusb4KihX_zVn6vqbUaArO3EALw_wcB";
-
+    private static final String RADIO_STATION_URL = "https://cast4.asurahosting.com/proxy/aryan/stream";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +98,7 @@ public class radio extends drawerBase{
 
     }
 
+
     class PlayerTask implements MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnInfoListener {
         private boolean isLive = false;
         private ProgressDialog progressDialog;
@@ -150,12 +148,6 @@ public class radio extends drawerBase{
             }
             try {
                 showProgressDialog();
-                URL url = new URL(strings[0]);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("HEAD");
-                isLive = (connection.getResponseCode() == HttpURLConnection.HTTP_OK);
-                connection.disconnect();
-
                 mediaPlayer.setDataSource(strings[0]);
                 mediaPlayer.setOnErrorListener(this);
                 mediaPlayer.setOnPreparedListener(this);
@@ -181,18 +173,12 @@ public class radio extends drawerBase{
         public void onPrepared(MediaPlayer mediaPlayer) {
 
             dismissProgressDialog();
-            if(isLive){
-                playbtn.setEnabled(true);
-                prepared = true;
-                live.setText("Radio is Live");
+            playbtn.setEnabled(true);
+            prepared = true;
+            live.setText("Radio is Live");
 
-                Animation animation = AnimationUtils.loadAnimation(radio.this, R.anim.text_animation);
-                live.setAnimation(animation);
-
-            }else {
-                Toast.makeText(radio.this, "Radio station is currently offline", Toast.LENGTH_LONG).show();
-                mediaPlayer.reset();
-            }
+            Animation animation = AnimationUtils.loadAnimation(radio.this, R.anim.text_animation);
+            live.setAnimation(animation);
             playbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -201,6 +187,7 @@ public class radio extends drawerBase{
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
                         seekprog.setProgress(0);
+                        seekprog.setEnabled(false);
                         playbtn.setImageResource(R.drawable.play);
                         animation1.pauseAnimation();
                         animation2.pauseAnimation();
@@ -210,6 +197,7 @@ public class radio extends drawerBase{
                     } else {
                         mediaPlayer.start();
                         seekprog.setProgress(100);
+                        seekprog.setEnabled(false);
                         playbtn.setImageResource(R.drawable.pause);
                         animation1.playAnimation();
                         animation2.playAnimation();
