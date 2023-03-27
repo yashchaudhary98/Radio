@@ -65,13 +65,15 @@ public class drawerBase extends AppCompatActivity {
                         startActivity(i);
                         break;
 
-                    case R.id.mail:
-                        composeEmail();
+                    case R.id.instagram:
+                        Intent t = new Intent(Intent.ACTION_VIEW);
+                        t.setData(Uri.parse("https://instagram.com/radiosandeshbijnor"));
+                        startActivity(t);
                         break;
 
                     case R.id.facebook:
                         Intent k = new Intent(Intent.ACTION_VIEW);
-                        k.setData(Uri.parse("https://https://www.facebook.com/KSVCEM/"));
+                        k.setData(Uri.parse("https://www.facebook.com/radiosandeshbijnor?mibextid=ZbWKwL"));
                         startActivity(k);
                         break;
 

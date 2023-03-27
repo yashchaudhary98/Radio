@@ -20,7 +20,7 @@ public class MyAppIntro extends AppIntro {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addSlide(AppIntroFragment.newInstance("Welcome To Sandesh App","Sandesh Radio is ready to provide you the amazing radio experience with 24x7 live and daily shows",
-                R.drawable.mic_slide, ContextCompat.getColor(getApplicationContext(), R.color.first)));
+                R.drawable.sandesh, ContextCompat.getColor(getApplicationContext(), R.color.first)));
 
         addSlide(AppIntroFragment.newInstance("Enjoy Our Live Radio","Listen to our radio and share your thoughts with us and ready to bring up the voice of indians",
                 R.drawable.on_air_slide, ContextCompat.getColor(getApplicationContext(), R.color.second)));
