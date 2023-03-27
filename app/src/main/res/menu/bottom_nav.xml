@@ -5,10 +5,10 @@
         android:enabled="true"
         android:title="@string/whatsapp"
         android:icon="@drawable/whatsapp"/>
-    <item android:id="@+id/mail"
+    <item android:id="@+id/instagram"
         android:enabled="true"
-        android:title="@string/mail"
-        android:icon="@drawable/mail"/>
+        android:title="@string/instagram"
+        android:icon="@drawable/instagram"/>
 
     <item android:id="@+id/facebook"
         android:enabled="true"
@@ -17,13 +17,13 @@
 
     <item android:id="@+id/share_nav"
         android:enabled="true"
-        android:title="Share"
+        android:title="@string/share"
         android:icon="@drawable/share"/>
 
     <item
         android:id="@+id/invisible"
         android:visible="false"
         android:icon="@drawable/support_nav"
-        android:title="account" />
+        android:title="@string/account" />
 
 </menu>
