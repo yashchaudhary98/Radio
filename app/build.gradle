@@ -7,7 +7,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.radio_ksvcem"
+        applicationId "com.sandesh.sandesh_radio"
         minSdk 23
         targetSdk 33
         versionCode 1
@@ -44,7 +44,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:20.1.0'
     implementation 'com.google.firebase:firebase-messaging:23.1.2'
     implementation 'com.google.firebase:firebase-inappmessaging-display:20.3.1'
-    implementation 'com.google.firebase:firebase-analytics:21.2.0'
+    implementation 'com.google.firebase:firebase-analytics:21.2.1'
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'com.google.firebase:firebase-storage:20.1.0'
     testImplementation 'junit:junit:4.13.2'

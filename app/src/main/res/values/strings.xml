@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sandesh Radio</string>
+    <string name="app_name">Sandesh 89.6</string>
 
     <string name="navigation_open">Open Navigation Drawer</string>
     <string name="navigation_close">Close Navigation Drawer</string>
@@ -22,4 +22,22 @@
     <string name="instagram">Instagram</string>
     <string name="share">Share</string>
     <string name="account">account</string>
+    <string name="radioline">Radio is Live</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="call_us">Call Us</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="email_us">Email Us</string>
+    <string name="quick_contact">QUICK CONTACT</string>
+    <string name="name">Name *</string>
+    <string name="enter_full_name_here">Enter Full Name Here</string>
+    <string name="email1">Email *</string>
+    <string name="enter_email_address">Enter Email Address</string>
+    <string name="message">Message *</string>
+    <string name="enter_your_query">Enter your query</string>
+    <string name="send">Send</string>
+    <string name="logo_header">Logo Header</string>
+    <string name="home_page_slide_notices">Home page slide notices</string>
+    <string name="loading">Loading...</string>
+    <string name="Pattern_Matcher">^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$</string>
 </resources>

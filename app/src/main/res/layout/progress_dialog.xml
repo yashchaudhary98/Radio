@@ -25,7 +25,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="Loading..."
+            android:text="@string/loading"
             android:textColor="#757373"
             android:textSize="20sp"
             android:textStyle="bold" />

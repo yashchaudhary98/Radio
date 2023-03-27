@@ -7,6 +7,7 @@
         android:layout_width="400dp"
         android:layout_height="400dp"
         android:id="@+id/image_slide"
-        android:adjustViewBounds="true"/>
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/home_page_slide_notices" />
 
 </RelativeLayout>

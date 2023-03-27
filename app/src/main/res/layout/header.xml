@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/logo"
-        android:padding="30dp"/>
+        android:padding="30dp"
+        android:contentDescription="@string/logo_header" />
 
 
 

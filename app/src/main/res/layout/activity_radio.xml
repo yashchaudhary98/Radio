@@ -1,139 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollable"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentBottom="true"
     android:orientation="vertical"
     android:background="@drawable/main_wall">
 
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <ScrollView
-            android:id="@+id/scrollable"
+
+        <com.denzcoskun.imageslider.ImageSlider
+            android:id="@+id/image_slider"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true">
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            app:iss_auto_cycle="true"
+            app:iss_delay="0"
+            app:iss_period="3000">
+
+        </com.denzcoskun.imageslider.ImageSlider>
 
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation1_view"
                 android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/musicbars" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/radio_live"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation2_view"
+                android:layout_width="107dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/live" />
+
+            <SeekBar
+                android:id="@+id/seekbar"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:soundEffectsEnabled="false"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/playbtnLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/loading_indicator"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:visibility="gone" />
 
+            <ImageView
+                android:id="@+id/play"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:drawingCacheQuality="high"
+                android:src="@drawable/play"
+                tools:ignore="SpeakableTextPresentCheck"
+                android:contentDescription="@string/play_btn" />
 
-                <com.denzcoskun.imageslider.ImageSlider
-                    android:id="@+id/image_slider"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"
-                    app:iss_auto_cycle="true"
-                    app:iss_delay="0"
-                    app:iss_period="3000">
-
-                </com.denzcoskun.imageslider.ImageSlider>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center">
-
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/animation1_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        app:lottie_autoPlay="false"
-                        app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/musicbars" />
-
-                </LinearLayout>
-
-
-                <TextView
-                    android:id="@+id/radio_live"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/animation2_view"
-                        android:layout_width="107dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginStart="10dp"
-                        app:lottie_autoPlay="false"
-                        app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/live" />
-
-                    <SeekBar
-                        android:id="@+id/seekbar"
-                        android:layout_width="250dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:soundEffectsEnabled="false"
-                        tools:ignore="SpeakableTextPresentCheck" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/playbtnLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="40dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ProgressBar
-                        android:id="@+id/loading_indicator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:indeterminate="true"
-                        android:visibility="gone" />
-
-                    <ImageView
-                        android:id="@+id/play"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:drawingCacheQuality="high"
-                        android:src="@drawable/play"
-                        tools:ignore="SpeakableTextPresentCheck"
-                        android:contentDescription="@string/play_btn" />
-
-                </LinearLayout>
+        </LinearLayout>
 
 
 
-            </LinearLayout>
+    </LinearLayout>
 
 
-        </ScrollView>
-
-
-    </RelativeLayout>
-
-
-</LinearLayout>
+</ScrollView>
