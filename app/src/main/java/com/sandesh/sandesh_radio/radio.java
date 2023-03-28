@@ -2,6 +2,7 @@ package com.sandesh.sandesh_radio;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
@@ -46,6 +47,8 @@ public class radio extends drawerBase{
     ImageSlider mainslide;
     LottieAnimationView animation1, animation2;
 
+    private AudioManager audioManager;
+
     private boolean prepared;
     private static final String RADIO_STATION_URL = "https://cast4.asurahosting.com/proxy/kunwarsa/stream";
 
@@ -71,10 +74,10 @@ public class radio extends drawerBase{
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot data:dataSnapshot.getChildren())
+                        for (DataSnapshot data : dataSnapshot.getChildren())
                             images.add(new SlideModel(Objects.requireNonNull(data.child("url").getValue()).toString(), ScaleTypes.FIT));
 
-                        mainslide.setImageList(images,ScaleTypes.FIT);
+                        mainslide.setImageList(images, ScaleTypes.FIT);
 
                     }
 
@@ -86,12 +89,17 @@ public class radio extends drawerBase{
                 });
 
 
-        mediaPlayer = MediaPlayerSingleton.getInstance();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer = new MediaPlayer();
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+        mediaPlayer.setAudioAttributes(audioAttributes);
+        mediaPlayer.setOnPreparedListener(mediaPlayer -> prepared = true);
+
 
         new PlayerTask().execute(RADIO_STATION_URL);
 
-        mediaPlayer.setOnPreparedListener(mediaPlayer -> prepared = true);
 
     }
 
@@ -151,6 +159,7 @@ public class radio extends drawerBase{
         public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
             dismissProgressDialog();
             runOnUiThread(() -> Toast.makeText(radio.this, "Something went wrong. Please try again later", Toast.LENGTH_LONG).show());
+            prepared = false;
             return false;
         }
 
@@ -171,8 +180,10 @@ public class radio extends drawerBase{
                     mediaPlayer.pause();
                     seekprog.setProgress(0);
                     playbtn.setImageResource(R.drawable.play);
-                    animation1.pauseAnimation();
-                    animation2.pauseAnimation();
+                    animation1.cancelAnimation();
+                    animation1.setProgress(0f);
+                    animation2.cancelAnimation();
+                    animation2.setProgress(0f);
                     live.setVisibility(View.VISIBLE);
 
 
@@ -207,6 +218,68 @@ public class radio extends drawerBase{
             }
             return false;
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(mediaPlayer != null){
+            outState.putInt("currentPosition", mediaPlayer.getCurrentPosition());
+            outState.putBoolean("isPlaying", mediaPlayer.isPlaying());
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null){
+            int currentPosition = savedInstanceState.getInt("currentPosition", 0);
+            boolean isPlaying = savedInstanceState.getBoolean("isPlaying", false);
+            if(mediaPlayer != null && prepared){
+                try {
+                    mediaPlayer.reset();
+                    mediaPlayer.setDataSource(RADIO_STATION_URL);
+                    mediaPlayer.prepare();
+                    mediaPlayer.seekTo(currentPosition);
+                    if(isPlaying){
+                        mediaPlayer.start();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        animation1.pauseAnimation();
+        animation2.pauseAnimation();
+        seekprog.setProgress(0);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mediaPlayer != null && mediaPlayer.isPlaying()){
+            animation1.resumeAnimation();
+            animation2.resumeAnimation();
+            seekprog.setProgress(100);
+        }
+
     }
 }
 
