@@ -1,13 +1,18 @@
 package com.sandesh.sandesh_radio;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.denzcoskun.imageslider.ImageSlider;
@@ -24,10 +31,12 @@ import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.sandesh_radio.R;
 import com.example.sandesh_radio.databinding.ActivityRadioBinding;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,12 +49,14 @@ public class radio extends drawerBase{
 
     ActivityRadioBinding activityRadioBinding;
 
-    MediaPlayer mediaPlayer;
-    ImageView playbtn;
-    TextView live;
-    SeekBar seekprog;
-    ImageSlider mainslide;
-    LottieAnimationView animation1, animation2;
+    private MediaPlayer mediaPlayer;
+    private ImageView playbtn;
+    private TextView live;
+    private SeekBar seekprog;
+    private ImageSlider mainslide;
+    private LottieAnimationView animation1, animation2;
+
+    private TelephonyManager telephonyManager;
 
     private AudioManager audioManager;
 
@@ -60,6 +71,32 @@ public class radio extends drawerBase{
         activityRadioBinding = ActivityRadioBinding.inflate(getLayoutInflater());
         setContentView(activityRadioBinding.getRoot());
         allocateActivityTitle("Radio");
+
+        FirebaseAnalytics.getInstance(this).logEvent("radio", null);
+        FirebaseInAppMessaging.getInstance().setAutomaticDataCollectionEnabled(true);
+
+        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
+        }
+
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+        mediaPlayer.setAudioAttributes(audioAttributes);
+        mediaPlayer.setOnPreparedListener(mediaPlayer -> prepared = true);
+
+        new PlayerTask().execute(RADIO_STATION_URL);
 
         playbtn = activityRadioBinding.play;
         seekprog = activityRadioBinding.seekbar;
@@ -89,21 +126,19 @@ public class radio extends drawerBase{
                 });
 
 
-        mediaPlayer = new MediaPlayer();
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .build();
-        mediaPlayer.setAudioAttributes(audioAttributes);
-        mediaPlayer.setOnPreparedListener(mediaPlayer -> prepared = true);
-
-
-        new PlayerTask().execute(RADIO_STATION_URL);
-
-
     }
 
-    class PlayerTask implements MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnInfoListener {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+        }
+    }
+
+
+
+    class PlayerTask implements MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener{
         private final boolean isLive = false;
         private ProgressDialog progressDialog;
 
@@ -132,32 +167,42 @@ public class radio extends drawerBase{
 
         protected Boolean doInBackground(String... strings) {
 
-            // Check for internet connectivity
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-            if (activeNetwork == null || !activeNetwork.isConnected()) {
-            // Internet not available, dismiss the dialog bar
-                dismissProgressDialog();
-                runOnUiThread(() -> Toast.makeText(radio.this, "Please connect to the internet", Toast.LENGTH_LONG).show());
-                return false;
+            boolean isConnectionLost = false;
+            while(!isConnectionLost) {
+                // Check for internet connectivity
+                ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                if (activeNetwork == null || !activeNetwork.isConnected()) {
+                    // Internet not available, dismiss the dialog bar
+                    dismissProgressDialog();
+                    runOnUiThread(() -> Toast.makeText(radio.this, "Please connect to the internet", Toast.LENGTH_LONG).show());
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        showProgressDialog();
+                        mediaPlayer.setDataSource(strings[0]);
+                        mediaPlayer.setOnErrorListener(this);
+                        mediaPlayer.setOnPreparedListener(this);
+                        mediaPlayer.setOnInfoListener(this);
+                        mediaPlayer.prepareAsync();
+                        prepared = true;
+                        isConnectionLost = true;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-            try {
-                showProgressDialog();
-                mediaPlayer.setDataSource(strings[0]);
-                mediaPlayer.setOnErrorListener(this);
-                mediaPlayer.setOnPreparedListener(this);
-                mediaPlayer.setOnInfoListener(this);
-                mediaPlayer.prepareAsync();
-                prepared = true;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return prepared;
+            return null;
         }
 
         @Override
         public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
             dismissProgressDialog();
+            mediaPlayer.release();
             runOnUiThread(() -> Toast.makeText(radio.this, "Something went wrong. Please try again later", Toast.LENGTH_LONG).show());
             prepared = false;
             return false;
@@ -196,12 +241,9 @@ public class radio extends drawerBase{
                     live.setVisibility(View.VISIBLE);
                 }
 
-
-
             });
 
         }
-
 
         @Override
         public boolean onInfo(MediaPlayer mediaPlayer, int what, int extra) {
@@ -217,6 +259,23 @@ public class radio extends drawerBase{
                 return true;
             }
             return false;
+        }
+
+
+        @Override
+        public void onBufferingUpdate(MediaPlayer mp, int percent) {
+            if(prepared){
+                int progress = (int) ((float) percent / 100 * mediaPlayer.getDuration());
+                seekprog.setSecondaryProgress(progress);
+
+                if (percent < 100) {
+                    progressDialog = ProgressDialog.show(radio.this, "", "Buffering. Please wait...", true);
+                } else {
+                    if (progressDialog != null && progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+            }
         }
     }
 
@@ -239,7 +298,7 @@ public class radio extends drawerBase{
                 try {
                     mediaPlayer.reset();
                     mediaPlayer.setDataSource(RADIO_STATION_URL);
-                    mediaPlayer.prepare();
+                    mediaPlayer.prepareAsync();
                     mediaPlayer.seekTo(currentPosition);
                     if(isPlaying){
                         mediaPlayer.start();
@@ -252,6 +311,28 @@ public class radio extends drawerBase{
     }
 
 
+    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
+        @Override
+        public void onCallStateChanged(int state, String phoneNumber) {
+            switch(state) {
+                case TelephonyManager.CALL_STATE_RINGING:
+                case TelephonyManager.CALL_STATE_OFFHOOK:
+                    pauseAudioPlayback();
+                    break;
+                case TelephonyManager.CALL_STATE_IDLE:
+                    resumeAudioPlayback();
+                    break;
+            }
+        }
+    };
+
+    private void resumeAudioPlayback() {
+        audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+    }
+
+    private void pauseAudioPlayback() {
+        audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+    }
 
     @Override
     protected void onDestroy() {
