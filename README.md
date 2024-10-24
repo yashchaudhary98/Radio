@@ -51,12 +51,12 @@ Processor: Quad-core or better <br>
 RAM: 2GB or more <br>
 Storage: 500MB free disk space <br>
 
-### Bug Reporting: Send me a personalized email on Aryan.verma.dev@gmail.com <br>
+#### Bug Reporting: Send me a personalized email on Aryan.verma.dev@gmail.com <br>
 
-### Social media: To connect with me you can check out the following links: <br>
+#### Social media: To connect with me you can check out the following links: <br>
 
 https://github.com/Aryanverma1710 <br>
 https://www.linkedin.com/in/aryan-verma1710/ <br>
 
-### Disclaimer: All data stored within the application is temporary and will be deleted automatically when you uninstall the app. No personal information or sensitive data is collected or retained.
+#### Disclaimer: All data stored within the application is temporary and will be deleted automatically when you uninstall the app. No personal information or sensitive data is collected or retained.
 
