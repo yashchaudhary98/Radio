@@ -14,6 +14,14 @@ Sandesh 89.6 is a versatile Android application that empowers users to connect w
 •	Efficient Internet Usage: Enjoy a smooth listening experience with optimized internet consumption. <br>
 With Sandesh 89.6, you can easily discover new music, connect with like-minded listeners, and stay entertained wherever you go. <br>
 
+### Project Visuals: <br>
+---------------------
+
+![alt text](https://github.com/Aryanverma1710/Radio/blob/master/Resources/intro.png)
+![alt text](https://github.com/Aryanverma1710/Radio/blob/master/Resources/playing.png)
+![alt text](https://github.com/Aryanverma1710/Radio/blob/master/Resources/contact.png)
+![alt text](https://github.com/Aryanverma1710/Radio/blob/master/Resources/second.png)
+
 ### Installation & Setup <br>
 -------------------------
 To download the code, click on the "Code" button and download the compressed ZIP file to your system. <br>
