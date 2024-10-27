@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "799870323322",
-    "firebase_url": "https://radio-ksvcem-default-rtdb.firebaseio.com",
-    "project_id": "radio-ksvcem",
-    "storage_bucket": "radio-ksvcem.appspot.com"
+    "project_number": "574573279072",
+    "firebase_url": "https://sandesh-radio-default-rtdb.firebaseio.com",
+    "project_id": "sandesh-radio",
+    "storage_bucket": "sandesh-radio.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:799870323322:android:80601f1235701c39f389c3",
+        "mobilesdk_app_id": "1:574573279072:android:e97ab380eecb189f639005",
         "android_client_info": {
-          "package_name": "com.example.radio_ksvcem"
+          "package_name": "com.sandesh.sandesh_radio"
         }
       },
       "oauth_client": [
         {
-          "client_id": "799870323322-lno2afakofucigpil6gqqhv75ot16pbh.apps.googleusercontent.com",
+          "client_id": "574573279072-4a92rbajlu86l0i6vfhjre5tj5i8nhum.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCLsT3QZAr-BaAhr-RhCcTgH-X3JzPlstY"
+          "current_key": "AIzaSyAdGussqlN2C0kREc3azUX8pQrNPKDPOxw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "799870323322-lno2afakofucigpil6gqqhv75ot16pbh.apps.googleusercontent.com",
+              "client_id": "574573279072-4a92rbajlu86l0i6vfhjre5tj5i8nhum.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
